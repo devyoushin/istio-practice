@@ -1,5 +1,7 @@
 # Helm으로 Istio 설치
 
+[설치 전 참고!! - namespace 분리 이유](./ns_seperation.md) 
+
 ### 1. 사전 준비: Helm 저장소 및 네임스페이스
 ---
 #### 레포지토리 추가 및 업데이트
