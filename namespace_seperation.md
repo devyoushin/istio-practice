@@ -21,5 +21,5 @@
 - Network Policies: 네임스페이스 단위로 네트워크 정책을 세우기 훨씬 수월합니다. "ingress 네임스페이스는 외부 통신을 허용하지만, system 네임스페이스는 내부망에서만 접근 가능하게 한다" 같은 정책을 적용하기 쉽습니다.
 - Istio Revision(Canary Upgrade): Istio를 업그레이드할 때, 네임스페이스가 분리되어 있으면 게이트웨이만 먼저 새 버전으로 올려보거나(Canary), 특정 네임스페이스만 이전 버전을 유지하는 등 생명주기 관리가 매우 유연해집니다.
 
-[참고링크: Installing Gateways](https://istio.io/latest/docs/setup/additional-setup/gateway/)
+> [참고: Installing Gateways 공식문서](https://istio.io/latest/docs/setup/additional-setup/gateway/)
 <img width="2820" height="1584" alt="image" src="https://github.com/user-attachments/assets/b336e62c-4276-4abc-9511-d120dc7d1395" />
