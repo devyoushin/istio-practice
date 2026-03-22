@@ -61,7 +61,7 @@ webhooks:
 
 ## 3. 트러블슈팅
 
-### `The injection webhook is deactivated` 메시지 해결
+`The injection webhook is deactivated` 메시지 해결
 
 위 로그가 출력되는 이유는 크게 두 가지입니다.
 
