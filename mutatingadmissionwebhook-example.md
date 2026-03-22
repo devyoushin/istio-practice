@@ -78,7 +78,7 @@ webhooks:
 - [Istio 공식 문서 - Installing Sidecar](https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/)
 - [Kubernetes - Dynamic Admission Control](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)
 
-## 5. TIP
+## TIP
 
 ### 실무용 모니터링 및 보안 전략
 
