@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-v1
+  labels:
+    app: my-app
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: my-app
+        version: v1
+    spec:
+      containers:
+      - name: my-app
+        image: nginx:1.21
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html
+      initContainers:
+      - name: init-html
+        image: busybox
+        command: ['sh', '-c', 'echo "<h1>Version 1</h1>" > /html/index.html']
+        volumeMounts:
+        - name: html
+          mountPath: /html
+      volumes:
+      - name: html
+        emptyDir: {}
