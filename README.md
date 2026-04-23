@@ -9,51 +9,50 @@ A hands-on repository for learning Istio on EKS.
 ## Learning Path
 
 ```
-1. Installation    → install.md, install-kiali.md, install-jaeger.md
-2. Core Concepts   → virtualservice-guide.md, destinationrule-guide.md
+1. Installation    → docs/install/
+2. Core Concepts   → docs/traffic-management/
 3. Advanced
-   ├── Infra         → namespace-seperation.md, mutatingadmissionwebhook-example.md
-   ├── Security      → mtls-guide.md, authorization-policy-guide.md
-   ├── Resiliency    → fault-injection-guide.md, circuit-breaker-guide.md
-   ├── Egress        → service-entry-guide.md, egress-gateway-guide.md
-   └── Observability → observability-guide.md
-4. Hands-on        → canary-test.md
+   ├── Security      → docs/security/
+   ├── Resiliency    → docs/traffic-management/
+   ├── Egress        → docs/traffic-management/
+   └── Observability → docs/observability/
+4. Hands-on        → docs/traffic-management/canary-test.md
 ```
 
 ---
 
 ## Documents
 
-### Installation
+### Installation (`docs/install/`)
 | File | Description |
 |------|-------------|
-| [install.md](./install.md) | Install Istio (Base, Istiod, Ingress Gateway) via Helm |
-| [install-kiali.md](./install-kiali.md) | Install Kiali for traffic visualization |
-| [install-jaeger.md](./install-jaeger.md) | Install Jaeger for distributed tracing |
+| [install.md](./docs/install/install.md) | Install Istio (Base, Istiod, Ingress Gateway) via Helm |
+| [mutatingadmissionwebhook-example.md](./docs/install/mutatingadmissionwebhook-example.md) | How sidecar auto-injection works (MutatingAdmissionWebhook) and troubleshooting |
 
-### Core Concepts
+### Traffic Management (`docs/traffic-management/`)
 | File | Description |
 |------|-------------|
-| [virtualservice-guide.md](./virtualservice-guide.md) | VirtualService — traffic routing rules (weight, path matching, retries) |
-| [destinationrule-guide.md](./destinationrule-guide.md) | DestinationRule — subset definition, load balancing, circuit breaker |
+| [virtualservice-guide.md](./docs/traffic-management/virtualservice-guide.md) | VirtualService — traffic routing rules (weight, path matching, retries) |
+| [destinationrule-guide.md](./docs/traffic-management/destinationrule-guide.md) | DestinationRule — subset definition, load balancing, circuit breaker |
+| [canary-test.md](./docs/traffic-management/canary-test.md) | Step-by-step canary deployment (90/10 → 50/50 → 0/100 traffic shift) |
+| [circuit-breaker-guide.md](./docs/traffic-management/circuit-breaker-guide.md) | Circuit Breaker — trigger Outlier Detection and verify recovery |
+| [fault-injection-guide.md](./docs/traffic-management/fault-injection-guide.md) | Fault Injection — simulate failures with intentional delays and errors |
+| [egress-gateway-guide.md](./docs/traffic-management/egress-gateway-guide.md) | Egress Gateway — control and audit outbound traffic through a single exit point |
+| [service-entry-guide.md](./docs/traffic-management/service-entry-guide.md) | ServiceEntry — register external services (APIs, DBs) into the mesh |
 
-### Advanced
+### Security (`docs/security/`)
 | File | Description |
 |------|-------------|
-| [namespace-seperation.md](./namespace-seperation.md) | Why istio-system and istio-ingress are separated (security, resource isolation) |
-| [mutatingadmissionwebhook-example.md](./mutatingadmissionwebhook-example.md) | How sidecar auto-injection works (MutatingAdmissionWebhook) and troubleshooting |
-| [mtls-guide.md](./mtls-guide.md) | mTLS — mutual authentication and encryption between services (PeerAuthentication, STRICT/PERMISSIVE) |
-| [authorization-policy-guide.md](./authorization-policy-guide.md) | AuthorizationPolicy — service-to-service RBAC (ALLOW/DENY, Zero Trust pattern) |
-| [fault-injection-guide.md](./fault-injection-guide.md) | Fault Injection — simulate failures with intentional delays and errors |
-| [circuit-breaker-guide.md](./circuit-breaker-guide.md) | Circuit Breaker — trigger Outlier Detection and verify recovery |
-| [service-entry-guide.md](./service-entry-guide.md) | ServiceEntry — register external services (APIs, DBs) into the mesh |
-| [egress-gateway-guide.md](./egress-gateway-guide.md) | Egress Gateway — control and audit outbound traffic through a single exit point |
-| [observability-guide.md](./observability-guide.md) | Prometheus + Grafana setup, key metrics, and distributed tracing configuration |
+| [mtls-guide.md](./docs/security/mtls-guide.md) | mTLS — mutual authentication and encryption between services (PeerAuthentication, STRICT/PERMISSIVE) |
+| [authorization-policy-guide.md](./docs/security/authorization-policy-guide.md) | AuthorizationPolicy — service-to-service RBAC (ALLOW/DENY, Zero Trust pattern) |
+| [namespace-seperation.md](./docs/security/namespace-seperation.md) | Why istio-system and istio-ingress are separated (security, resource isolation) |
 
-### Hands-on
+### Observability (`docs/observability/`)
 | File | Description |
 |------|-------------|
-| [canary-test.md](./canary-test.md) | Step-by-step canary deployment (90/10 → 50/50 → 0/100 traffic shift) |
+| [observability-guide.md](./docs/observability/observability-guide.md) | Prometheus + Grafana setup, key metrics, and distributed tracing configuration |
+| [install-kiali.md](./docs/observability/install-kiali.md) | Install Kiali for traffic visualization |
+| [install-jaeger.md](./docs/observability/install-jaeger.md) | Install Jaeger for distributed tracing |
 
 ---
 
