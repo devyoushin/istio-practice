@@ -142,6 +142,7 @@ docs/{카테고리}/{주제}.md
 | `envoy-access-log.md` | Access Log 포맷, 응답 플래그 해석, JSON 포맷 커스터마이징, Telemetry API |
 | `envoy-admin-api.md` | Admin API (15000포트): config_dump, clusters, stats, logging 실전 활용 |
 | `envoy-debug-guide.md` | 시나리오별 트러블슈팅 (UH/UF/UO/NR), 진단 흐름, 로그 레벨 디버깅 |
+| `network-latency-diagnosis.md` | TCP 구간별 지연 분석, Envoy 통계로 handshake/RST/timeout 진단, ss/tcpdump 활용 |
 
 ---
 

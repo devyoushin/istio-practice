@@ -64,6 +64,7 @@ A hands-on repository for learning Istio on EKS.
 | [envoy-access-log.md](./docs/envoy/envoy-access-log.md) | Access log format, response flag reference (UH/UF/UO/NR), JSON customization |
 | [envoy-admin-api.md](./docs/envoy/envoy-admin-api.md) | Admin API (port 15000) — config_dump, clusters, stats, runtime log level tuning |
 | [envoy-debug-guide.md](./docs/envoy/envoy-debug-guide.md) | Scenario-based sidecar troubleshooting with diagnostic command cheat sheet |
+| [network-latency-diagnosis.md](./docs/envoy/network-latency-diagnosis.md) | Per-segment latency analysis — TCP handshake, RST, timeout diagnosis via Envoy stats and ss |
 
 ---
 
