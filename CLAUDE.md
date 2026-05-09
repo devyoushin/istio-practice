@@ -112,6 +112,10 @@ docs/{카테고리}/{주제}.md
 | `fault-injection-guide.md` | Fault Injection (delay/abort), 장애 내성 테스트 |
 | `egress-gateway-guide.md` | Egress Gateway로 외부 트래픽 제어 |
 | `service-entry-guide.md` | ServiceEntry 외부 서비스 등록, ALLOW_ANY vs REGISTRY_ONLY |
+| `retry-timeout-guide.md` | Retry/Timeout 실무 권장값, retryOn 조건, Retry Storm 방지 |
+| `traffic-mirroring.md` | Traffic Mirroring(Shadowing), Canary 전환 전 안전 검증 |
+| `load-balancing-deep-dive.md` | LEAST_CONN, CONSISTENT_HASH(세션 어피니티), Locality LB |
+| `rate-limiting-guide.md` | 로컬/글로벌 Rate Limit, 토큰 버킷, 외부 Rate Limit 서비스 |
 
 ### docs/security/
 | 파일 | 주제 |
@@ -130,12 +134,17 @@ docs/{카테고리}/{주제}.md
 | `observability-guide.md` | Istio 관측성 스택 개요, Prometheus 지표, 트레이싱 |
 | `install-kiali.md` | Kiali 설치 및 서비스 그래프 활용 |
 | `install-jaeger.md` | Jaeger 설치 및 분산 트레이싱 설정 |
+| `prometheus-metrics.md` | Istio 표준 지표 4종, Envoy raw 지표, 커스텀 지표, 알람 쿼리 |
+| `distributed-tracing-guide.md` | B3/W3C 헤더 전파, 샘플링 설정, 헤더 전달 코드 예시 |
+| `grafana-dashboard-guide.md` | 공식 대시보드 활용, 커스텀 패널, Canary 비교 대시보드 |
 
 ### docs/install/
 | 파일 | 주제 |
 |------|------|
 | `install.md` | Istio EKS 설치, istioctl, Helm 방식 |
 | `mutatingadmissionwebhook-example.md` | MutatingAdmissionWebhook 동작 원리, 사이드카 인젝션 |
+| `istio-upgrade.md` | Canary/In-place 업그레이드 전략, 롤백 절차 |
+| `istio-performance-tuning.md` | 사이드카 리소스 튜닝, concurrency, Sidecar 리소스, 통계 필터링 |
 
 ### docs/envoy/
 | 파일 | 주제 |

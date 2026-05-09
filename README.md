@@ -29,6 +29,8 @@ A hands-on repository for learning Istio on EKS.
 |------|-------------|
 | [install.md](./docs/install/install.md) | Install Istio (Base, Istiod, Ingress Gateway) via Helm |
 | [mutatingadmissionwebhook-example.md](./docs/install/mutatingadmissionwebhook-example.md) | How sidecar auto-injection works (MutatingAdmissionWebhook) and troubleshooting |
+| [istio-upgrade.md](./docs/install/istio-upgrade.md) | Canary and In-place upgrade strategies with rollback procedures |
+| [istio-performance-tuning.md](./docs/install/istio-performance-tuning.md) | Sidecar resource tuning, concurrency, Sidecar resource scope, stats filtering |
 
 ### Traffic Management (`docs/traffic-management/`)
 | File | Description |
@@ -40,6 +42,10 @@ A hands-on repository for learning Istio on EKS.
 | [fault-injection-guide.md](./docs/traffic-management/fault-injection-guide.md) | Fault Injection — simulate failures with intentional delays and errors |
 | [egress-gateway-guide.md](./docs/traffic-management/egress-gateway-guide.md) | Egress Gateway — control and audit outbound traffic through a single exit point |
 | [service-entry-guide.md](./docs/traffic-management/service-entry-guide.md) | ServiceEntry — register external services (APIs, DBs) into the mesh |
+| [retry-timeout-guide.md](./docs/traffic-management/retry-timeout-guide.md) | Retry & Timeout — retryOn conditions, perTryTimeout, Retry Storm prevention |
+| [traffic-mirroring.md](./docs/traffic-management/traffic-mirroring.md) | Traffic Mirroring (Shadowing) — safe pre-validation before Canary rollout |
+| [load-balancing-deep-dive.md](./docs/traffic-management/load-balancing-deep-dive.md) | Load Balancing — LEAST_CONN, CONSISTENT_HASH session affinity, Locality LB |
+| [rate-limiting-guide.md](./docs/traffic-management/rate-limiting-guide.md) | Rate Limiting — local token bucket, global rate limit service integration |
 
 ### Security (`docs/security/`)
 | File | Description |
@@ -58,6 +64,9 @@ A hands-on repository for learning Istio on EKS.
 | [observability-guide.md](./docs/observability/observability-guide.md) | Prometheus + Grafana setup, key metrics, and distributed tracing configuration |
 | [install-kiali.md](./docs/observability/install-kiali.md) | Install Kiali for traffic visualization |
 | [install-jaeger.md](./docs/observability/install-jaeger.md) | Install Jaeger for distributed tracing |
+| [prometheus-metrics.md](./docs/observability/prometheus-metrics.md) | Istio standard metrics, Envoy raw stats, custom labels, alerting queries |
+| [distributed-tracing-guide.md](./docs/observability/distributed-tracing-guide.md) | B3/W3C header propagation, sampling config, app-level context forwarding |
+| [grafana-dashboard-guide.md](./docs/observability/grafana-dashboard-guide.md) | Official dashboards, custom panels, Canary comparison, alert rules |
 
 ### Envoy Deep Dive (`docs/envoy/`)
 | File | Description |
