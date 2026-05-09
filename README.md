@@ -16,7 +16,8 @@ A hands-on repository for learning Istio on EKS.
    ├── Resiliency    → docs/traffic-management/
    ├── Egress        → docs/traffic-management/
    └── Observability → docs/observability/
-4. Hands-on        → docs/traffic-management/canary-test.md
+4. Deep Dive       → docs/envoy/
+5. Hands-on        → docs/traffic-management/canary-test.md
 ```
 
 ---
@@ -53,6 +54,16 @@ A hands-on repository for learning Istio on EKS.
 | [observability-guide.md](./docs/observability/observability-guide.md) | Prometheus + Grafana setup, key metrics, and distributed tracing configuration |
 | [install-kiali.md](./docs/observability/install-kiali.md) | Install Kiali for traffic visualization |
 | [install-jaeger.md](./docs/observability/install-jaeger.md) | Install Jaeger for distributed tracing |
+
+### Envoy Deep Dive (`docs/envoy/`)
+| File | Description |
+|------|-------------|
+| [envoy-architecture.md](./docs/envoy/envoy-architecture.md) | Envoy internals — Listener, Filter Chain, Cluster, Endpoint and how Istio maps to each |
+| [xds-protocol.md](./docs/envoy/xds-protocol.md) | xDS protocol (LDS/RDS/CDS/EDS) — how istiod pushes config to Envoy sidecars |
+| [filter-chain-guide.md](./docs/envoy/filter-chain-guide.md) | Network/HTTP filter chains and EnvoyFilter customization (Lua, RBAC, timeout) |
+| [envoy-access-log.md](./docs/envoy/envoy-access-log.md) | Access log format, response flag reference (UH/UF/UO/NR), JSON customization |
+| [envoy-admin-api.md](./docs/envoy/envoy-admin-api.md) | Admin API (port 15000) — config_dump, clusters, stats, runtime log level tuning |
+| [envoy-debug-guide.md](./docs/envoy/envoy-debug-guide.md) | Scenario-based sidecar troubleshooting with diagnostic command cheat sheet |
 
 ---
 
