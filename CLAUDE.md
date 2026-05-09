@@ -117,6 +117,10 @@ docs/{카테고리}/{주제}.md
 | 파일 | 주제 |
 |------|------|
 | `mtls-guide.md` | mTLS STRICT/PERMISSIVE, PeerAuthentication 설정 |
+| `mtls-certificate-lifecycle.md` | SPIFFE/SVID 인증서 발급·갱신 원리, SDS, istiod CA 구조 |
+| `mtls-migration-guide.md` | PERMISSIVE → STRICT 단계별 마이그레이션 전략 |
+| `mtls-debug-guide.md` | mTLS 핸드셰이크 실패 시나리오별 진단 (CONFLICT, 만료, 미주입) |
+| `mtls-external-ca.md` | 외부 CA 연동 (플러그인 CA, AWS ACM PCA, Vault, cert-manager) |
 | `authorization-policy-guide.md` | AuthorizationPolicy, Default-deny, 최소 권한 |
 | `namespace-seperation.md` | 네임스페이스 격리, 멀티 테넌트 메시 구성 |
 

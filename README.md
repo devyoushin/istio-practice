@@ -45,6 +45,10 @@ A hands-on repository for learning Istio on EKS.
 | File | Description |
 |------|-------------|
 | [mtls-guide.md](./docs/security/mtls-guide.md) | mTLS — mutual authentication and encryption between services (PeerAuthentication, STRICT/PERMISSIVE) |
+| [mtls-certificate-lifecycle.md](./docs/security/mtls-certificate-lifecycle.md) | SPIFFE/SVID certificate issuance and renewal — how istiod CA and SDS work internally |
+| [mtls-migration-guide.md](./docs/security/mtls-migration-guide.md) | Step-by-step PERMISSIVE → STRICT migration strategy with rollback procedures |
+| [mtls-debug-guide.md](./docs/security/mtls-debug-guide.md) | mTLS handshake failure diagnosis — CONFLICT, cert expiry, missing sidecar, RBAC scenarios |
+| [mtls-external-ca.md](./docs/security/mtls-external-ca.md) | External CA integration — plugin CA (cacerts), AWS ACM PCA, HashiCorp Vault, cert-manager |
 | [authorization-policy-guide.md](./docs/security/authorization-policy-guide.md) | AuthorizationPolicy — service-to-service RBAC (ALLOW/DENY, Zero Trust pattern) |
 | [namespace-seperation.md](./docs/security/namespace-seperation.md) | Why istio-system and istio-ingress are separated (security, resource isolation) |
 
