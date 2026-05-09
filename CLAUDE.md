@@ -20,7 +20,8 @@ istio-practice/
 │   ├── traffic-management/  (7개)    # VirtualService, DestinationRule, Canary, Circuit Breaker
 │   ├── security/            (3개)    # mTLS, AuthorizationPolicy, Namespace 격리
 │   ├── observability/       (3개)    # Kiali, Jaeger, Prometheus
-│   └── install/             (2개)    # 설치, MutatingAdmissionWebhook
+│   ├── install/             (2개)    # 설치, MutatingAdmissionWebhook
+│   └── envoy/               (5개)    # Envoy 아키텍처, xDS, Filter Chain, Access Log, Admin API, 디버깅
 │
 ├── app/                               # 샘플 앱 Kubernetes 매니페스트
 │   ├── deployment-v1.yaml
@@ -131,6 +132,16 @@ docs/{카테고리}/{주제}.md
 |------|------|
 | `install.md` | Istio EKS 설치, istioctl, Helm 방식 |
 | `mutatingadmissionwebhook-example.md` | MutatingAdmissionWebhook 동작 원리, 사이드카 인젝션 |
+
+### docs/envoy/
+| 파일 | 주제 |
+|------|------|
+| `envoy-architecture.md` | Envoy 전체 구조 (Listener → Filter Chain → Cluster → Endpoint), istioctl proxy-config |
+| `xds-protocol.md` | xDS API (LDS/RDS/CDS/EDS), istiod → Envoy 설정 전달 흐름, 동기화 확인 |
+| `filter-chain-guide.md` | Network/HTTP Filter Chain, EnvoyFilter 커스터마이징 (Lua, RBAC, Timeout) |
+| `envoy-access-log.md` | Access Log 포맷, 응답 플래그 해석, JSON 포맷 커스터마이징, Telemetry API |
+| `envoy-admin-api.md` | Admin API (15000포트): config_dump, clusters, stats, logging 실전 활용 |
+| `envoy-debug-guide.md` | 시나리오별 트러블슈팅 (UH/UF/UO/NR), 진단 흐름, 로그 레벨 디버깅 |
 
 ---
 
