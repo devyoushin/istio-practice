@@ -23,30 +23,30 @@ istio-practice/
 │   ├── install/             (2개)    # 설치, MutatingAdmissionWebhook
 │   └── envoy/               (5개)    # Envoy 아키텍처, xDS, Filter Chain, Access Log, Admin API, 디버깅
 │
-├── app/                               # 샘플 앱 Kubernetes 매니페스트
+├── ops/app/                               # 샘플 앱 Kubernetes 매니페스트
 │   ├── deployment-v1.yaml
 │   ├── deployment-v2.yaml
 │   └── service.yaml
 │
-├── istio/                             # Istio 리소스 YAML 예제
+├── ops/istio/                             # Istio 리소스 YAML 예제
 │   ├── gateway.yaml
 │   ├── destination-rule.yaml
 │   ├── virtual-service-0-100.yaml
 │   ├── virtual-service-50-50.yaml
 │   └── virtual-service-90-10.yaml
 │
-├── templates/                         # 재사용 문서 템플릿
+├── docs/templates/                         # 재사용 문서 템플릿
 │   ├── service-doc.md                 # 서비스 Istio 구성 문서
 │   ├── runbook.md                     # 운영 Runbook
 │   └── incident-report.md            # 장애 보고서
 │
-├── rules/                             # Claude 작성 규칙
+├── docs/rules/                             # Claude 작성 규칙
 │   ├── doc-writing.md                 # 문서 스타일 가이드
 │   ├── istio-conventions.md           # YAML/명령어 코드 규칙
 │   ├── security-checklist.md          # 보안 검토 체크리스트
 │   └── monitoring.md                  # 모니터링/확인 작성 기준
 │
-├── agents/                            # Claude 전문 에이전트
+├── docs/agents/                            # Claude 전문 에이전트
 │   ├── doc-writer.md                  # 문서 작성 에이전트
 │   ├── mesh-advisor.md                # 메시 아키텍처 설계/검토 에이전트
 │   ├── traffic-analyzer.md            # 트래픽 분석/배포 전략 에이전트
@@ -96,7 +96,7 @@ docs/{카테고리}/{주제}.md
 4. **한국어 기술 문서** — 주요 개념은 영어 원문 병기
 5. **모니터링 필수** — 모든 문서에 `istioctl` 진단 명령어 포함
 
-세부 규칙은 `rules/` 디렉토리를 참조합니다.
+세부 규칙은 `docs/rules/` 디렉토리를 참조합니다.
 
 ---
 

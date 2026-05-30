@@ -160,12 +160,12 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 ## Manifest Structure
 
 ```
-app/
+ops/app/
 ├── deployment-v1.yaml   # stable version (replicas: 2)
 ├── deployment-v2.yaml   # canary version (replicas: 1)
 └── service.yaml         # shared Service (selects both v1 and v2)
 
-istio/
+ops/istio/
 ├── destination-rule.yaml          # defines v1 and v2 subsets
 ├── gateway.yaml                   # entry point for external traffic
 ├── virtual-service-90-10.yaml     # canary start  (v1: 90%, v2: 10%)

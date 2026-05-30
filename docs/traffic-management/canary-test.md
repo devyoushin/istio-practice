@@ -38,11 +38,11 @@ kubectl get namespace default --show-labels
 
 ```bash
 # v1, v2 Deployment 배포
-kubectl apply -f app/deployment-v1.yaml
-kubectl apply -f app/deployment-v2.yaml
+kubectl apply -f ops/app/deployment-v1.yaml
+kubectl apply -f ops/app/deployment-v2.yaml
 
 # 공통 Service 배포
-kubectl apply -f app/service.yaml
+kubectl apply -f ops/app/service.yaml
 
 # Pod 확인 (READY 2/2 → 사이드카 주입 확인)
 kubectl get pods -l app=my-app
@@ -65,7 +65,7 @@ my-app-v2-xxxx               2/2     Running   0
 DestinationRule은 Service 뒤의 Pod를 `subset`으로 그룹화합니다.
 
 ```bash
-kubectl apply -f istio/destination-rule.yaml
+kubectl apply -f ops/istio/destination-rule.yaml
 
 # 확인
 kubectl get destinationrule
@@ -81,7 +81,7 @@ kubectl describe destinationrule my-app
 ## Step 3: 트래픽 분할 시작 (90% v1 / 10% v2)
 
 ```bash
-kubectl apply -f istio/virtual-service-90-10.yaml
+kubectl apply -f ops/istio/virtual-service-90-10.yaml
 
 # 확인
 kubectl get virtualservice
@@ -107,7 +107,7 @@ for i in $(seq 1 20); do curl -s http://my-app | grep -o "Version [0-9]"; done
 v2에서 문제가 없으면 트래픽을 늘립니다.
 
 ```bash
-kubectl apply -f istio/virtual-service-50-50.yaml
+kubectl apply -f ops/istio/virtual-service-50-50.yaml
 
 # 테스트 (약 50:50으로 분산되는지 확인)
 for i in $(seq 1 20); do curl -s http://my-app | grep -o "Version [0-9]"; done
@@ -118,7 +118,7 @@ for i in $(seq 1 20); do curl -s http://my-app | grep -o "Version [0-9]"; done
 ## Step 5: 완전 전환 (0% v1 / 100% v2)
 
 ```bash
-kubectl apply -f istio/virtual-service-0-100.yaml
+kubectl apply -f ops/istio/virtual-service-0-100.yaml
 
 # 전부 v2로 가는지 확인
 for i in $(seq 1 10); do curl -s http://my-app | grep -o "Version [0-9]"; done
@@ -130,7 +130,7 @@ for i in $(seq 1 10); do curl -s http://my-app | grep -o "Version [0-9]"; done
 
 ```bash
 kubectl delete deployment my-app-v1
-kubectl delete -f istio/virtual-service-0-100.yaml
+kubectl delete -f ops/istio/virtual-service-0-100.yaml
 
 # DestinationRule에서 v1 subset 제거 (필요 시 수동 편집)
 kubectl edit destinationrule my-app
@@ -143,7 +143,7 @@ kubectl edit destinationrule my-app
 v2에서 문제가 생기면 즉시 v1으로 되돌립니다.
 
 ```bash
-kubectl apply -f istio/virtual-service-90-10.yaml  # 또는
+kubectl apply -f ops/istio/virtual-service-90-10.yaml  # 또는
 
 # 즉시 전체 롤백
 kubectl patch virtualservice my-app --type=json \
@@ -158,7 +158,7 @@ kubectl patch virtualservice my-app --type=json \
 클러스터 외부에서 접근하려면 Gateway를 사용합니다.
 
 ```bash
-kubectl apply -f istio/gateway.yaml
+kubectl apply -f ops/istio/gateway.yaml
 
 # Ingress Gateway IP 확인
 kubectl get svc istio-ingressgateway -n istio-system

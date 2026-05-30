@@ -6,8 +6,8 @@ Istio는 별도의 코드 수정 없이 세 가지 관찰 가능성 도구를 �
 |------|------|-----------|
 | **Prometheus** | 메트릭 수집 (요청 수, 지연 시간, 오류율) | - |
 | **Grafana** | 메트릭 시각화 대시보드 | - |
-| **Jaeger** | 분산 트레이싱 (요청 흐름 추적) | [install_jaeger.md](./install_jaeger.md) |
-| **Kiali** | 서비스 그래프 시각화 | [install_kiali.md](./install_kiali.md) |
+| **Jaeger** | 분산 트레이싱 (요청 흐름 추적) | [install-jaeger.md](./install-jaeger.md) |
+| **Kiali** | 서비스 그래프 시각화 | [install-kiali.md](./install-kiali.md) |
 
 ---
 
