@@ -129,6 +129,7 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 | File | Description |
 |------|-------------|
 | [mtls-guide.md](./docs/security/mtls-guide.md) | mTLS — PeerAuthentication, STRICT/PERMISSIVE modes |
+| [tls-mtls-handshake-flow.md](./docs/security/tls-mtls-handshake-flow.md) | TLS/mTLS handshake — TCP 3-way handshake 관점으로 보는 Istio Envoy 간 암호화 통신 |
 | [authorization-policy-guide.md](./docs/security/authorization-policy-guide.md) | AuthorizationPolicy — service-to-service RBAC (ALLOW/DENY, Zero Trust) |
 | [namespace-seperation.md](./docs/security/namespace-seperation.md) | Namespace isolation — why istio-system and istio-ingress are separated |
 

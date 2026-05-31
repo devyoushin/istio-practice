@@ -14,7 +14,7 @@ Istio는 서비스 간 통신을 자동으로 암호화하고 상호 인증합�
 
 ## 2. 동작 원리
 
-```
+```text
 서비스 A (Envoy)  ──── mTLS ────  서비스 B (Envoy)
      │                                   │
   클라이언트 인증서 제시          서버 인증서 제시
@@ -22,6 +22,8 @@ Istio는 서비스 간 통신을 자동으로 암호화하고 상호 인증합�
 ```
 
 Istiod가 각 Pod에 X.509 인증서를 자동 발급하고 갱신합니다. 개발자가 인증서를 직접 관리할 필요가 없습니다.
+
+TLS/mTLS 핸드셰이크를 TCP 3-way handshake처럼 단계별로 이해하려면 [Istio TLS/mTLS 핸드셰이크 동작 원리](./tls-mtls-handshake-flow.md)를 참고합니다.
 
 ---
 
@@ -120,7 +122,7 @@ kubectl run curl-test --image=curlimages/curl -it --rm -- curl http://my-app
 
 ---
 
-## 전체 메시에 STRICT 적용 (권장 설정)
+## 7. 전체 메시에 STRICT 적용
 
 ```yaml
 apiVersion: security.istio.io/v1beta1
@@ -137,7 +139,8 @@ spec:
 
 ---
 
-## 참고
+## 8. 참고
 
+- [Istio TLS/mTLS 핸드셰이크 동작 원리](./tls-mtls-handshake-flow.md)
 - [공식문서 - PeerAuthentication](https://istio.io/latest/docs/reference/config/security/peer_authentication/)
 - [공식문서 - Mutual TLS Migration](https://istio.io/latest/docs/tasks/security/authentication/mtls-migration/)

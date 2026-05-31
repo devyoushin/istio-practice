@@ -9,7 +9,7 @@ Istio 학습 문서는 주제별로 나눠 관리합니다.
 | `concepts/` | Nginx 등 기존 프록시 경험을 Istio 개념으로 연결 | `nginx-vs-istio.md` |
 | `install/` | Istio 설치, 업그레이드, 사이드카 주입, 성능 튜닝 | `install.md`, `istio-upgrade.md`, `mutatingadmissionwebhook-example.md` |
 | `traffic-management/` | L7/L4 라우팅, 카나리, 재시도, 장애 주입, 외부 트래픽 제어 | `virtualservice-guide.md`, `destinationrule-guide.md`, `canary-test.md`, `service-entry-guide.md` |
-| `security/` | mTLS, AuthorizationPolicy, 인증서 수명주기, 외부 CA, 네임스페이스 분리 | `mtls-guide.md`, `authorization-policy-guide.md`, `mtls-certificate-lifecycle.md` |
+| `security/` | mTLS, TLS 핸드셰이크, AuthorizationPolicy, 인증서 수명주기, 외부 CA, 네임스페이스 분리 | `mtls-guide.md`, `tls-mtls-handshake-flow.md`, `authorization-policy-guide.md` |
 | `observability/` | Prometheus, Grafana, Kiali, Jaeger, tracing, 대시보드 | `observability-guide.md`, `prometheus-metrics.md`, `distributed-tracing-guide.md` |
 | `envoy/` | Envoy 아키텍처, xDS, filter chain, admin/debug, 지연 진단 | `envoy-architecture.md`, `xds-protocol.md`, `envoy-debug-guide.md` |
 | `agents/` | Claude 전문 에이전트 프롬프트 | `doc-writer.md`, `traffic-analyzer.md`, `security-reviewer.md` |
