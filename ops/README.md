@@ -4,6 +4,8 @@ Istio 실습 자산과 운영 보조 자료를 두는 공간입니다.
 
 | 폴더 | 내용 |
 |------|------|
+| `install/` | Helm 기반 Istio 설치 스크립트와 values |
+| `upgrade/` | Istio Helm 업그레이드 스크립트 |
 | `app/` | 샘플 앱 Kubernetes 매니페스트 |
 | `istio/` | Gateway, VirtualService, DestinationRule 예제 |
 
