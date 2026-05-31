@@ -10,6 +10,7 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 ## 어디서 시작할까
 
 - 문서 지도: `docs/README.md`
+- Nginx 관점 비교: `docs/concepts/nginx-vs-istio.md`
 - 첫 문서: `docs/install/install.md`
 - 운영 보조 자료: `ops/README.md`
 - AI 작업 지침: `CLAUDE.md`
@@ -47,7 +48,8 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
    ├── Install & upgrade Istio on EKS
    └── Understand sidecar injection internals
 
-2. Core Concepts     → docs/traffic-management/
+2. Core Concepts     → docs/concepts/ + docs/traffic-management/
+   ├── Nginx perspective: how Istio takes over proxy, routing, security, observability
    ├── VirtualService + DestinationRule (routing basics)
    └── Canary deployment hands-on
 
@@ -67,6 +69,16 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 ---
 
 ## Documents
+
+### 🧭 Concepts (1 doc)
+
+> Nginx와 비교해 Istio의 역할, 기능, 성능 비용, 운영 방식을 이해
+
+| File | Description |
+|------|-------------|
+| [nginx-vs-istio.md](./docs/concepts/nginx-vs-istio.md) | Nginx upstream/location/proxy_pass 관점에서 Istio Gateway, VirtualService, DestinationRule, mTLS, observability를 매핑 |
+
+---
 
 ### 📦 Installation (4 docs)
 
