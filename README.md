@@ -33,7 +33,7 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 - [Documents](#documents)
   - [Installation](#-installation-4-docs)
   - [Traffic Management](#-traffic-management-11-docs)
-  - [Security](#-security-7-docs)
+  - [Security](#-security-8-docs)
   - [Observability](#-observability-6-docs)
   - [Envoy Deep Dive](#-envoy-deep-dive-7-docs)
 - [상세 구조](#상세-구조)
@@ -120,7 +120,7 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 
 ---
 
-### 🔒 Security (7 docs)
+### 🔒 Security (8 docs)
 
 > mTLS, 인증서 관리, 접근 제어, 외부 CA 연동
 
@@ -129,7 +129,7 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 | File | Description |
 |------|-------------|
 | [mtls-guide.md](./docs/security/mtls-guide.md) | mTLS — PeerAuthentication, STRICT/PERMISSIVE modes |
-| [tls-mtls-handshake-flow.md](./docs/security/tls-mtls-handshake-flow.md) | TLS/mTLS handshake — TCP 3-way handshake 관점으로 보는 Istio Envoy 간 암호화 통신 |
+| [tls-mtls-handshake-flow.md](./docs/security/tls-mtls-handshake-flow.md) | TLS/mTLS handshake — TCP 3-way handshake, Gateway termination, 내부 mTLS 재암호화 흐름 |
 | [authorization-policy-guide.md](./docs/security/authorization-policy-guide.md) | AuthorizationPolicy — service-to-service RBAC (ALLOW/DENY, Zero Trust) |
 | [namespace-seperation.md](./docs/security/namespace-seperation.md) | Namespace isolation — why istio-system and istio-ingress are separated |
 

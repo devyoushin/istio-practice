@@ -192,7 +192,139 @@ Server Envoy
 Server App
 ```
 
-## 6. PeerAuthentication과 DestinationRule의 역할
+## 6. TLS Termination 후 내부 mTLS 재암호화
+
+외부 사용자가 HTTPS로 Istio Ingress Gateway에 접근하는 경우, TLS는 Gateway에서 한 번 종료됩니다. 이때 Gateway는 외부 클라이언트와 맺은 TLS 세션을 복호화한 뒤, 내부 서비스로 보낼 때 새 mTLS 세션을 생성합니다.
+
+```text
+외부 구간
+Client ── HTTPS/TLS ──▶ Istio Ingress Gateway
+                         │
+                         │ TLS termination
+                         │ - 외부 인증서로 HTTPS 종료
+                         │ - HTTP 요청으로 라우팅 규칙 평가
+                         ▼
+내부 메시 구간
+Istio Ingress Gateway ── Istio mTLS ──▶ Service Envoy sidecar ── HTTP ──▶ App
+```
+
+즉, `https://example.com` 요청이 Gateway에 들어오면 내부로 평문이 그대로 흘러가는 것이 아니라, Gateway Envoy가 내부 서비스의 Envoy와 다시 mTLS 핸드셰이크를 수행합니다. 단, 이 내부 mTLS는 목적지 워크로드에 사이드카가 있고 mTLS 정책이 활성화되어 있어야 적용됩니다.
+
+### 1. 구간별 암호화 상태
+
+| 구간 | 프로토콜 | 암호화 주체 | 설명 |
+|------|----------|-------------|------|
+| Client → Ingress Gateway | HTTPS/TLS | 외부 클라이언트와 Gateway Envoy | 외부 인증서로 TLS termination |
+| Ingress Gateway 내부 처리 | HTTP | Gateway Envoy 내부 메모리 | VirtualService 라우팅, header/path 평가 |
+| Ingress Gateway → Service Envoy | mTLS | Gateway Envoy와 Service Envoy | Istio 워크로드 인증서로 재암호화 |
+| Service Envoy → App | HTTP/gRPC | 로컬 Pod 내부 통신 | 애플리케이션은 일반 HTTP/gRPC 수신 |
+
+Gateway에서 TLS를 종료한다는 말은 “클러스터 내부가 모두 평문”이라는 뜻이 아닙니다. 외부 TLS 세션은 Gateway에서 끝나고, 내부 구간은 Istio mTLS 세션으로 다시 보호됩니다.
+
+### 2. Gateway TLS termination 예시
+
+외부 HTTPS를 받는 Gateway는 다음처럼 `tls.mode: SIMPLE`을 사용합니다.
+
+```yaml
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: my-app-gateway
+  namespace: istio-ingress
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: my-app-tls
+      hosts:
+        - example.com
+```
+
+이 설정은 외부 클라이언트와 Gateway 사이의 HTTPS를 처리합니다. 내부 서비스로 mTLS를 적용하는 설정은 별도로 `PeerAuthentication`과 `DestinationRule` 또는 Istio auto mTLS에 의해 결정됩니다.
+
+```yaml
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: default
+spec:
+  mtls:
+    mode: STRICT
+```
+
+```yaml
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: my-app
+  namespace: default
+spec:
+  host: my-app.default.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+```
+
+### 3. 요청 처리 순서
+
+```text
+1. Client가 example.com:443으로 TCP 연결 생성
+2. Client와 Ingress Gateway가 TLS handshake 수행
+3. Gateway가 외부 TLS를 종료하고 HTTP 요청을 복호화
+4. Gateway가 VirtualService 기준으로 목적지 Service 선택
+5. Gateway Envoy가 my-app Envoy로 TCP 연결 생성
+6. Gateway Envoy와 my-app Envoy가 Istio mTLS handshake 수행
+7. Gateway Envoy가 HTTP 요청을 mTLS로 암호화해 전달
+8. my-app Envoy가 요청을 복호화한 뒤 app container로 전달
+```
+
+이 구조에서는 외부 TLS 인증서와 내부 mTLS 인증서의 목적이 다릅니다.
+
+| 인증서 | 사용 위치 | 목적 |
+|--------|-----------|------|
+| 외부 서버 인증서 | Client → Ingress Gateway | 브라우저/외부 클라이언트가 `example.com` 신뢰 |
+| Istio 워크로드 인증서 | Ingress Gateway → Service Envoy | 서비스 간 identity 검증과 암호화 |
+
+### 4. 확인 명령
+
+Gateway가 내부 서비스로 mTLS를 사용하는지 확인합니다.
+
+```bash
+# Gateway Pod 확인
+kubectl get pod -n istio-ingress -l istio=ingressgateway
+
+# Gateway → 서비스 방향 TLS 상태 확인
+istioctl authn tls-check <INGRESS_GATEWAY_POD>.istio-ingress my-app.default.svc.cluster.local
+
+# Gateway Envoy의 upstream cluster TLS 설정 확인
+istioctl proxy-config clusters <INGRESS_GATEWAY_POD> -n istio-ingress | grep my-app
+
+# Gateway Envoy 인증서 확인
+istioctl proxy-config secret <INGRESS_GATEWAY_POD> -n istio-ingress
+
+# 서비스 Envoy에서 mTLS 핸드셰이크 통계 확인
+kubectl exec <SERVICE_POD> -n default -c istio-proxy -- \
+  curl -s http://localhost:15000/stats | \
+  grep -E "ssl\\.(handshake|connection_error|session_reused)"
+```
+
+### 5. 자주 헷갈리는 지점
+
+| 오해 | 실제 동작 |
+|------|-----------|
+| Gateway에서 TLS termination하면 내부는 무조건 평문이다 | Gateway 이후 내부 구간은 Istio mTLS로 다시 암호화 가능 |
+| 외부 TLS 인증서가 내부 mTLS에도 사용된다 | 내부 mTLS는 istiod가 발급한 워크로드 인증서를 사용 |
+| Gateway는 단순 L7 프록시라 mTLS 클라이언트가 아니다 | Gateway Envoy도 mesh 워크로드로서 내부 서비스에 mTLS 클라이언트가 될 수 있음 |
+| PeerAuthentication만 STRICT면 항상 내부 mTLS가 된다 | 클라이언트 측 TLS 모드와 사이드카 주입 상태도 함께 맞아야 함 |
+
+## 7. PeerAuthentication과 DestinationRule의 역할
 
 Istio에서 mTLS는 수신 정책과 발신 정책이 함께 맞아야 합니다.
 
@@ -229,7 +361,7 @@ spec:
 
 서버가 `STRICT`인데 클라이언트가 `DISABLE` 또는 평문으로 보내면 handshake가 성립하지 않습니다.
 
-## 7. 실패 지점별 증상
+## 8. 실패 지점별 증상
 
 | 실패 위치 | 대표 증상 | 확인 명령 |
 |-----------|-----------|-----------|
@@ -240,7 +372,7 @@ spec:
 | PeerAuthentication/DestinationRule 충돌 | `CONFLICT`, 503 | `istioctl authn tls-check` |
 | mTLS 성공 후 권한 거부 | 403, `rbac_access_denied` | `kubectl get authorizationpolicy` |
 
-## 8. 모니터링 및 확인
+## 9. 모니터링 및 확인
 
 ### TLS 정책 확인
 
@@ -277,7 +409,7 @@ kubectl logs <SERVER_POD> -n default -c istio-proxy | \
   grep -E " 503 | 403 |UF|UC|NR|rbac"
 ```
 
-## 9. 트러블슈팅
+## 10. 트러블슈팅
 
 ### 증상: STRICT 적용 후 사이드카 없는 Pod만 실패
 
@@ -308,7 +440,7 @@ kubectl get authorizationpolicy -n default -o yaml
 kubectl logs <SERVER_POD> -n default -c istio-proxy | grep -i rbac
 ```
 
-## 10. 참고
+## 11. 참고
 
 - [mTLS 가이드](./mtls-guide.md)
 - [mTLS 인증서 라이프사이클 가이드](./mtls-certificate-lifecycle.md)

@@ -158,6 +158,8 @@ Istio는 외부 TLS와 내부 mTLS를 분리해서 관리합니다.
 Client --TLS--> Ingress Gateway --mTLS--> Service A --mTLS--> Service B
 ```
 
+외부 HTTPS는 Ingress Gateway에서 termination되지만, Gateway 이후 내부 서비스 호출은 Istio 워크로드 인증서로 다시 mTLS 암호화될 수 있습니다. 즉, 외부 TLS와 내부 mTLS는 서로 다른 인증서와 신뢰 체계를 사용하는 별도 세션입니다.
+
 Istio에서 가져가는 보안 이점은 다음과 같습니다.
 
 - 서비스 간 통신 암호화 자동화
@@ -169,6 +171,7 @@ Istio에서 가져가는 보안 이점은 다음과 같습니다.
 관련 문서:
 
 - [mTLS 가이드](../security/mtls-guide.md)
+- [TLS/mTLS 핸드셰이크 동작 원리](../security/tls-mtls-handshake-flow.md)
 - [AuthorizationPolicy 가이드](../security/authorization-policy-guide.md)
 
 ## 6. 관측 관점
