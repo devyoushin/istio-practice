@@ -1,5 +1,11 @@
 # Istio AuthorizationPolicy 가이드
 
+> **작성일**: 2026-05-31
+> **Istio 버전**: 1.28.3
+> **환경**: EKS
+
+## 1. 개요
+
 **AuthorizationPolicy**는 서비스 간 접근을 제어하는 L4/L7 RBAC입니다.
 "어떤 서비스(또는 사용자)가 어떤 서비스의 어떤 경로를 호출할 수 있는가"를 정의합니다.
 
@@ -7,7 +13,7 @@
 
 ---
 
-## 동작 원리
+## 2. 동작 원리
 
 ```
 서비스 A  →  서비스 B의 Envoy 사이드카
@@ -20,7 +26,7 @@
 
 ---
 
-## 주요 필드
+## 3. 주요 필드
 
 ```yaml
 apiVersion: security.istio.io/v1beta1
@@ -48,7 +54,7 @@ spec:
 
 ---
 
-## 실습 시나리오
+## 4. 실습 시나리오
 
 ### 시나리오: frontend만 my-app의 /api 호출 허용
 
@@ -108,7 +114,7 @@ kubectl exec -it deploy/backend -- curl http://my-app/api/data
 
 ---
 
-## 전체 차단 후 명시적 허용 (Zero Trust 패턴)
+## 5. 전체 차단 후 명시적 허용
 
 모든 트래픽을 기본 차단하고, 필요한 것만 허용하는 방식입니다.
 
@@ -143,7 +149,7 @@ spec:
 
 ---
 
-## DENY 정책 (ALLOW보다 항상 우선)
+## 6. DENY 정책
 
 ```yaml
 apiVersion: security.istio.io/v1beta1
@@ -166,9 +172,9 @@ spec:
 
 ---
 
-## 정책 우선순위 정리
+## 7. 정책 우선순위 정리
 
-```
+```text
 DENY 정책 매칭  →  차단 (최우선)
      ↓
 ALLOW 정책 매칭  →  허용
@@ -180,7 +186,7 @@ ALLOW 정책 매칭  →  허용
 
 ---
 
-## 현재 정책 확인
+## 8. 모니터링 및 확인
 
 ```bash
 kubectl get authorizationpolicy -n default
@@ -192,7 +198,18 @@ istioctl x describe pod <pod-name>
 
 ---
 
-## 참고
+## 9. 트러블슈팅
+
+| 증상 | 확인 항목 |
+|------|-----------|
+| 허용 정책 적용 후에도 403 발생 | `principals`, namespace, ServiceAccount 이름 확인 |
+| 정책이 너무 넓게 적용됨 | `selector.matchLabels` 누락 여부 확인 |
+| DENY가 예상보다 우선 적용됨 | DENY 정책은 ALLOW보다 항상 우선함 |
+| 경로 조건이 동작하지 않음 | HTTP 프로토콜 인식 여부와 `paths` 패턴 확인 |
+
+---
+
+## 10. 참고
 
 - [공식문서 - AuthorizationPolicy](https://istio.io/latest/docs/reference/config/security/authorization-policy/)
 - [공식문서 - Authorization 튜토리얼](https://istio.io/latest/docs/tasks/security/authorization/authz-http/)

@@ -1,5 +1,11 @@
 # Istio 관찰 가능성 (Observability) 가이드
 
+> **작성일**: 2026-05-31
+> **Istio 버전**: 1.28.3
+> **환경**: EKS
+
+## 1. 개요
+
 Istio는 별도의 코드 수정 없이 세 가지 관찰 가능성 도구를 제공합니다.
 
 | 도구 | 역할 | 설치 파일 |
@@ -11,7 +17,7 @@ Istio는 별도의 코드 수정 없이 세 가지 관찰 가능성 도구를 �
 
 ---
 
-## Prometheus + Grafana 설치
+## 2. Prometheus + Grafana 설치
 
 ### 1. Prometheus 설치
 
@@ -70,7 +76,7 @@ Grafana → Dashboards → Import → ID 입력
 
 ---
 
-## 주요 Istio 메트릭
+## 3. 주요 Istio 메트릭
 
 Prometheus에서 직접 쿼리할 수 있는 핵심 메트릭입니다.
 

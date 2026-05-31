@@ -1,14 +1,20 @@
 # Istio ServiceEntry 가이드
 
+> **작성일**: 2026-05-31
+> **Istio 버전**: 1.28.3
+> **환경**: EKS
+
+## 1. 개요
+
 **ServiceEntry**는 Istio 서비스 메시 외부에 있는 서비스(외부 API, DB, 레거시 서비스 등)를 메시의 레지스트리에 등록하는 리소스입니다.
 
 > 기본적으로 Istio는 메시 내부 서비스만 인식합니다. 외부 호출도 Istio가 제어하려면 ServiceEntry로 등록해야 합니다.
 
 ---
 
-## 기본 동작 이해
+## 2. 기본 동작 이해
 
-```
+```text
 기본 설정 (outboundTrafficPolicy: ALLOW_ANY)
 Pod → 외부 API → 응답 (Istio 제어 없음, 모니터링 불가)
 
@@ -19,7 +25,7 @@ Pod → Envoy → ServiceEntry → 외부 API → 응답
 
 ---
 
-## outboundTrafficPolicy 설정
+## 3. outboundTrafficPolicy 설정
 
 외부 트래픽 기본 정책을 먼저 확인합니다.
 
@@ -44,15 +50,16 @@ spec:
 
 ---
 
-## 설정 예시
+## 4. 설정 예시
 
 ### 1. 외부 HTTPS API 등록
 
 ```yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: external-api
+  namespace: default
 spec:
   hosts:
   - api.example.com           # 접근할 외부 도메인
@@ -77,10 +84,11 @@ ServiceEntry로 등록한 후 VirtualService로 트래픽 정책을 적용할 �
 
 ```yaml
 # ServiceEntry
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: external-api
+  namespace: default
 spec:
   hosts:
   - api.example.com
@@ -92,10 +100,11 @@ spec:
   location: MESH_EXTERNAL
 ---
 # VirtualService로 정책 추가
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: external-api
+  namespace: default
 spec:
   hosts:
   - api.example.com
@@ -116,10 +125,11 @@ spec:
 DNS가 아닌 고정 IP로 접근하는 외부 서비스(예: 사내 레거시 서버)입니다.
 
 ```yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: legacy-db
+  namespace: default
 spec:
   hosts:
   - legacy-db.internal
@@ -140,10 +150,11 @@ spec:
 다른 클러스터의 서비스나 VM 워크로드를 메시에 통합할 때 사용합니다.
 
 ```yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: other-cluster-service
+  namespace: default
 spec:
   hosts:
   - other-service.other-namespace.svc.cluster.local
@@ -157,7 +168,7 @@ spec:
 
 ---
 
-## REGISTRY_ONLY 환경에서 작업
+## 5. REGISTRY_ONLY 환경에서 작업
 
 보안을 위해 `REGISTRY_ONLY`를 사용하는 경우, 모든 외부 서비스를 ServiceEntry로 등록해야 합니다.
 
@@ -174,7 +185,7 @@ kubectl exec -it <pod-name> -- curl https://unregistered-api.com
 
 ---
 
-## 등록된 ServiceEntry 확인
+## 6. 모니터링 및 확인
 
 ```bash
 kubectl get serviceentry
@@ -187,7 +198,18 @@ istioctl dashboard kiali
 
 ---
 
-## 참고
+## 7. 트러블슈팅
+
+| 증상 | 확인 항목 |
+|------|-----------|
+| 외부 호출이 502로 실패함 | `ServiceEntry`의 `hosts`, `ports`, `resolution` 확인 |
+| DNS 해석이 실패함 | `resolution: DNS`와 클러스터 DNS 정책 확인 |
+| `REGISTRY_ONLY`에서만 실패함 | 대상 외부 도메인이 ServiceEntry에 등록되었는지 확인 |
+| Kiali에 외부 노드가 보이지 않음 | 애플리케이션 Pod에 사이드카가 주입되었는지 확인 |
+
+---
+
+## 8. 참고
 
 - [공식문서 - ServiceEntry](https://istio.io/latest/docs/reference/config/networking/service-entry/)
 - [공식문서 - Egress 트래픽 제어](https://istio.io/latest/docs/tasks/traffic-management/egress/egress-control/)

@@ -1,12 +1,18 @@
 # Istio mTLS (Mutual TLS) 가이드
 
+> **작성일**: 2026-05-31
+> **Istio 버전**: 1.28.3
+> **환경**: EKS
+
+## 1. 개요
+
 Istio는 서비스 간 통신을 자동으로 암호화하고 상호 인증합니다. 이를 위해 두 가지 리소스를 사용합니다.
 - **PeerAuthentication**: "나에게 오는 트래픽은 mTLS여야 한다"는 수신 정책
 - **DestinationRule**: "내가 보내는 트래픽은 mTLS로 보낸다"는 발신 정책
 
 ---
 
-## 동작 원리
+## 2. 동작 원리
 
 ```
 서비스 A (Envoy)  ──── mTLS ────  서비스 B (Envoy)
@@ -19,7 +25,7 @@ Istiod가 각 Pod에 X.509 인증서를 자동 발급하고 갱신합니다. 개
 
 ---
 
-## mTLS 모드
+## 3. mTLS 모드
 
 | 모드 | 설명 | 사용 시점 |
 |------|------|-----------|
@@ -29,7 +35,7 @@ Istiod가 각 Pod에 X.509 인증서를 자동 발급하고 갱신합니다. 개
 
 ---
 
-## 설정 예시
+## 4. 설정 예시
 
 ### 1. 네임스페이스 전체에 STRICT mTLS 적용
 
@@ -69,10 +75,11 @@ spec:
 PeerAuthentication만으로는 부족합니다. 클라이언트 측에서도 mTLS로 보내도록 설정해야 합니다.
 
 ```yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
   name: my-app-mtls
+  namespace: default
 spec:
   host: my-app
   trafficPolicy:
@@ -82,7 +89,7 @@ spec:
 
 ---
 
-## 현재 mTLS 상태 확인
+## 5. 현재 mTLS 상태 확인
 
 ```bash
 # 네임스페이스의 PeerAuthentication 확인
@@ -97,7 +104,7 @@ istioctl dashboard kiali
 
 ---
 
-## STRICT 적용 후 검증
+## 6. STRICT 적용 후 검증
 
 ```bash
 # mTLS 없이 직접 호출 시도 (실패해야 정상)

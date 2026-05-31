@@ -1,25 +1,34 @@
 # Istio Canary 배포 실습
 
-## 디렉토리 구조
+> **작성일**: 2026-05-31
+> **Istio 버전**: 1.28.3
+> **환경**: EKS
+
+## 1. 개요
+
+VirtualService와 DestinationRule을 사용해 v1에서 v2로 트래픽을 단계적으로 전환하는 카나리 배포 실습임. 실제 적용 YAML은 `ops/` 아래에 두고, 이 문서는 적용 순서와 검증 방법을 설명함.
+
+## 2. 실습 자산 구조
 
 ```
 istio-practice/
-├── app/
-│   ├── deployment-v1.yaml       # nginx v1 배포
-│   ├── deployment-v2.yaml       # nginx v2 배포 (canary)
-│   └── service.yaml             # 공통 Service (v1+v2 모두 연결)
-├── istio/
-│   ├── destination-rule.yaml    # subset(v1, v2) 정의
-│   ├── gateway.yaml             # 외부 트래픽 진입점
-│   ├── virtual-service-90-10.yaml  # v1:90% / v2:10%
-│   ├── virtual-service-50-50.yaml  # v1:50% / v2:50%
-│   └── virtual-service-0-100.yaml  # v1:0%  / v2:100%
-└── canary-test.md
+├── ops/
+│   ├── app/
+│   │   ├── deployment-v1.yaml       # nginx v1 배포
+│   │   ├── deployment-v2.yaml       # nginx v2 배포 (canary)
+│   │   └── service.yaml             # 공통 Service
+│   └── istio/
+│       ├── destination-rule.yaml       # subset(v1, v2) 정의
+│       ├── gateway.yaml                # 외부 트래픽 진입점
+│       ├── virtual-service-90-10.yaml  # v1:90% / v2:10%
+│       ├── virtual-service-50-50.yaml  # v1:50% / v2:50%
+│       └── virtual-service-0-100.yaml  # v1:0% / v2:100%
+└── docs/traffic-management/canary-test.md
 ```
 
 ---
 
-## 사전 조건
+## 3. 사전 조건
 
 ```bash
 # Istio 설치 확인
@@ -34,7 +43,7 @@ kubectl get namespace default --show-labels
 
 ---
 
-## Step 1: 앱 배포
+## 4. 앱 배포
 
 ```bash
 # v1, v2 Deployment 배포
@@ -60,7 +69,7 @@ my-app-v2-xxxx               2/2     Running   0
 
 ---
 
-## Step 2: DestinationRule 적용
+## 5. DestinationRule 적용
 
 DestinationRule은 Service 뒤의 Pod를 `subset`으로 그룹화합니다.
 
@@ -78,7 +87,7 @@ kubectl describe destinationrule my-app
 
 ---
 
-## Step 3: 트래픽 분할 시작 (90% v1 / 10% v2)
+## 6. 트래픽 분할 시작 (90% v1 / 10% v2)
 
 ```bash
 kubectl apply -f ops/istio/virtual-service-90-10.yaml
@@ -102,7 +111,7 @@ for i in $(seq 1 20); do curl -s http://my-app | grep -o "Version [0-9]"; done
 
 ---
 
-## Step 4: 트래픽 증가 (50% v1 / 50% v2)
+## 7. 트래픽 증가 (50% v1 / 50% v2)
 
 v2에서 문제가 없으면 트래픽을 늘립니다.
 
@@ -115,7 +124,7 @@ for i in $(seq 1 20); do curl -s http://my-app | grep -o "Version [0-9]"; done
 
 ---
 
-## Step 5: 완전 전환 (0% v1 / 100% v2)
+## 8. 완전 전환 (0% v1 / 100% v2)
 
 ```bash
 kubectl apply -f ops/istio/virtual-service-0-100.yaml
@@ -126,7 +135,7 @@ for i in $(seq 1 10); do curl -s http://my-app | grep -o "Version [0-9]"; done
 
 ---
 
-## Step 6: v1 제거 (배포 완료)
+## 9. v1 제거 (배포 완료)
 
 ```bash
 kubectl delete deployment my-app-v1
@@ -138,7 +147,7 @@ kubectl edit destinationrule my-app
 
 ---
 
-## 롤백 방법
+## 10. 롤백 방법
 
 v2에서 문제가 생기면 즉시 v1으로 되돌립니다.
 
@@ -153,7 +162,7 @@ kubectl patch virtualservice my-app --type=json \
 
 ---
 
-## 외부 트래픽 (Gateway 사용)
+## 11. 외부 트래픽 (Gateway 사용)
 
 클러스터 외부에서 접근하려면 Gateway를 사용합니다.
 
@@ -173,7 +182,7 @@ curl http://$INGRESS_IP
 
 ---
 
-## 트래픽 분할 원리
+## 12. 트래픽 분할 원리
 
 ```
 클라이언트
@@ -192,7 +201,7 @@ Istio VirtualService + DestinationRule이 그 앞에서 트래픽을 가중치�
 
 ---
 
-## Kiali로 시각화 (선택)
+## 13. 모니터링 및 확인
 
 ```bash
 # Kiali 대시보드 접속
@@ -207,7 +216,7 @@ Graph 탭에서 트래픽 흐름과 비율을 실시간으로 확인할 수 있�
 
 ---
 
-## 자주 발생하는 문제
+## 14. 트러블슈팅
 
 | 증상 | 원인 | 해결 |
 |------|------|------|

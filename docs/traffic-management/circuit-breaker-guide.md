@@ -1,14 +1,20 @@
 # Istio Circuit Breaker 실습 가이드
 
+> **작성일**: 2026-05-31
+> **Istio 버전**: 1.28.3
+> **환경**: EKS
+
+## 1. 개요
+
 Circuit Breaker(서킷 브레이커)는 특정 서비스가 비정상 상태일 때 해당 서비스로의 요청을 차단하여 장애가 전파되는 것을 막는 패턴입니다. Istio에서는 DestinationRule의 `outlierDetection`으로 구현합니다.
 
 > `destinationrule-guide.md`에서 개념을 확인했다면, 이 문서에서 실제로 트리거하고 복구되는 과정을 실습합니다.
 
 ---
 
-## Circuit Breaker 상태
+## 2. Circuit Breaker 상태
 
-```
+```text
        요청 실패 누적
 CLOSED ──────────────→ OPEN (차단)
   ↑                        │
@@ -25,13 +31,14 @@ CLOSED ──────────────→ OPEN (차단)
 
 ---
 
-## 설정 (DestinationRule)
+## 3. 설정 (DestinationRule)
 
 ```yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
   name: my-app
+  namespace: default
 spec:
   host: my-app
   trafficPolicy:
@@ -57,7 +64,7 @@ spec:
 
 ---
 
-## 실습: Circuit Breaker 트리거
+## 4. 실습: Circuit Breaker 트리거
 
 ### 1. 준비: fortio로 부하 테스트
 
@@ -94,7 +101,7 @@ kubectl exec "$FORTIO_POD" -- fortio load -c 3 -qps 0 -n 30 http://my-app
 
 ---
 
-## 실습: Outlier Detection (비정상 Pod 자동 제외)
+## 5. 실습: Outlier Detection
 
 비정상 응답을 반환하는 Pod를 로드밸런서 대상에서 자동으로 제외합니다.
 

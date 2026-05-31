@@ -1,12 +1,18 @@
 # Istio Fault Injection 가이드
 
+> **작성일**: 2026-05-31
+> **Istio 버전**: 1.28.3
+> **환경**: EKS
+
+## 1. 개요
+
 **Fault Injection**은 VirtualService에서 의도적으로 지연(delay)이나 오류(abort)를 주입하여 장애 상황을 시뮬레이션하는 기능입니다.
 
 > 실제 서비스를 다운시키지 않고 "만약 이 서비스가 500ms 느려지면?"을 테스트할 수 있습니다.
 
 ---
 
-## 두 가지 장애 유형
+## 2. 두 가지 장애 유형
 
 | 유형 | 설명 | 테스트 목적 |
 |------|------|-------------|
@@ -15,17 +21,18 @@
 
 ---
 
-## 설정 예시
+## 3. 설정 예시
 
 ### 1. 지연 주입 (Delay)
 
 요청의 50%에 5초 지연을 주입합니다.
 
 ```yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: my-app
+  namespace: default
 spec:
   hosts:
   - my-app
@@ -53,10 +60,11 @@ time curl http://my-app
 요청의 30%에 HTTP 500 오류를 반환합니다.
 
 ```yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: my-app
+  namespace: default
 spec:
   hosts:
   - my-app
@@ -98,17 +106,18 @@ http:
 
 ---
 
-## 실전 시나리오: Retry 설정 검증
+## 4. 실전 시나리오: Retry 설정 검증
 
 Fault Injection은 Retry 설정이 실제로 동작하는지 확인하는 데 유용합니다.
 
 **1. 오류 주입 + Retry 설정**
 
 ```yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: my-app
+  namespace: default
 spec:
   hosts:
   - my-app
@@ -140,7 +149,7 @@ istioctl dashboard jaeger
 
 ---
 
-## 특정 사용자에게만 장애 주입 (헤더 기반)
+## 5. 특정 사용자에게만 장애 주입 (헤더 기반)
 
 ```yaml
 http:
@@ -174,7 +183,7 @@ curl -H "x-test-user: fault-tester" http://my-app
 
 ---
 
-## 장애 주입 제거
+## 6. 장애 주입 제거
 
 테스트 후 반드시 제거해야 합니다.
 
@@ -188,6 +197,33 @@ kubectl edit virtualservice my-app
 
 ---
 
-## 참고
+## 7. 모니터링 및 확인
+
+```bash
+# VirtualService 적용 상태 확인
+kubectl get virtualservice my-app -n default -o yaml
+
+# Envoy가 수신한 라우팅 설정 확인
+istioctl proxy-config routes deploy/my-app -n default
+
+# 지연과 오류 발생 비율 확인
+for i in $(seq 1 20); do
+  curl -s -o /dev/null -w "%{http_code} %{time_total}\n" http://my-app
+done
+```
+
+---
+
+## 8. 트러블슈팅
+
+| 증상 | 확인 항목 |
+|------|-----------|
+| 지연이나 오류가 발생하지 않음 | `VirtualService`의 `hosts`, `gateways`, `match` 조건 확인 |
+| 모든 요청이 실패함 | `abort.percentage` 값과 라우팅 대상 subset 존재 여부 확인 |
+| 재시도가 발생하지 않음 | `retryOn`, `attempts`, `perTryTimeout` 설정과 클라이언트 타임아웃 확인 |
+
+---
+
+## 9. 참고
 
 - [공식문서 - Fault Injection](https://istio.io/latest/docs/tasks/traffic-management/fault-injection/)

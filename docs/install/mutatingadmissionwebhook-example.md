@@ -1,3 +1,8 @@
+# MutatingAdmissionWebhook 사이드카 주입 가이드
+
+> **작성일**: 2026-05-31
+> **Istio 버전**: 1.28.3
+> **환경**: EKS
 
 ## 1. 개요
 
@@ -78,7 +83,15 @@ webhooks:
 - [Istio 공식 문서 - Installing Sidecar](https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/)
 - [Kubernetes - Dynamic Admission Control](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)
 
-## TIP
+## 5. 모니터링 및 확인
+
+```bash
+kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml
+istioctl experimental check-inject -n <NAMESPACE> <POD_YAML>
+kubectl get pods -n <NAMESPACE> -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.containers[*].name}{"\n"}{end}'
+```
+
+## 6. TIP
 
 ### 실무용 모니터링 및 보안 전략
 
