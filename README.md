@@ -7,8 +7,27 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 
 ---
 
+## 어디서 시작할까
+
+- 문서 지도: `docs/README.md`
+- 첫 문서: `docs/install/install.md`
+- 운영 보조 자료: `ops/README.md`
+- AI 작업 지침: `CLAUDE.md`
+
+## 구조
+
+| 경로 | 내용 |
+|------|------|
+| `docs/` | 설치, 트래픽 관리, 보안, 관측, Envoy 문서 |
+| `ops/` | 샘플 앱과 Istio 리소스 YAML |
+| `CLAUDE.md` | 이 레포에서 Claude가 참고할 작업 지침 |
+
+---
+
 ## Table of Contents
 
+- [어디서 시작할까](#어디서-시작할까)
+- [구조](#구조)
 - [Learning Path](#learning-path)
 - [Documents](#documents)
   - [Installation](#-installation-4-docs)
@@ -16,7 +35,7 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
   - [Security](#-security-7-docs)
   - [Observability](#-observability-6-docs)
   - [Envoy Deep Dive](#-envoy-deep-dive-7-docs)
-- [Manifest Structure](#manifest-structure)
+- [상세 구조](#상세-구조)
 - [Key Concept Summary](#key-concept-summary)
 
 ---
@@ -157,7 +176,7 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 
 ---
 
-## Manifest Structure
+## 상세 구조
 
 ```
 ops/app/
