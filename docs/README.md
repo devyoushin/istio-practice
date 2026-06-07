@@ -7,7 +7,7 @@ Istio 학습 문서는 주제별로 나눠 관리합니다.
 | 폴더 | 역할 | 대표 문서 |
 |------|------|-----------|
 | `concepts/` | Nginx 등 기존 프록시 경험을 Istio 개념으로 연결 | `nginx-vs-istio.md` |
-| `install/` | Istio 설치, 업그레이드, 사이드카 주입, 성능 튜닝 | `install.md`, `istio-upgrade.md`, `mutatingadmissionwebhook-example.md` |
+| `install/` | Istio 설치, 업그레이드, 사이드카 주입, 성능 튜닝 | `install.md`, `upgrade/`, `istio-upgrade.md`, `mutatingadmissionwebhook-example.md` |
 | `traffic-management/` | L7/L4 라우팅, 카나리, 재시도, 장애 주입, 외부 트래픽 제어 | `virtualservice-guide.md`, `destinationrule-guide.md`, `canary-test.md`, `service-entry-guide.md` |
 | `security/` | mTLS, TLS 핸드셰이크, AuthorizationPolicy, 인증서 수명주기, 외부 CA, 네임스페이스 분리 | `mtls-guide.md`, `tls-mtls-handshake-flow.md`, `authorization-policy-guide.md` |
 | `observability/` | Prometheus, Grafana, Kiali, Jaeger, tracing, 대시보드 | `observability-guide.md`, `prometheus-metrics.md`, `distributed-tracing-guide.md` |
@@ -38,3 +38,4 @@ Istio 학습 문서는 주제별로 나눠 관리합니다.
 
 Nginx와 비교하며 Istio를 이해하려면 `concepts/nginx-vs-istio.md`를 먼저 읽습니다.
 처음 설치 실습 문서는 `install/install.md`입니다.
+Helm 업그레이드 실행 절차는 `install/upgrade/`입니다.

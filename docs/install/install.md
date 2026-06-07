@@ -54,5 +54,6 @@ istioctl analyze -A
 ## 7. 관련 문서
 
 - [Namespace 분리 이유](../security/namespace-seperation.md)
-- [Istio 업그레이드](./istio-upgrade.md)
+- [Istio 업그레이드 전략](./istio-upgrade.md)
+- [Istio Helm 업그레이드 실행](./upgrade/)
 - [사이드카 자동 주입](./mutatingadmissionwebhook-example.md)
