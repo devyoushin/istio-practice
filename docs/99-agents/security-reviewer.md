@@ -69,6 +69,6 @@ mTLS, AuthorizationPolicy, JWT 인증을 활용하여 제로 트러스트(Zero T
 
 ## 참조 문서
 
-- `docs/security/mtls-guide.md` — mTLS 설정
-- `docs/security/authorization-policy-guide.md` — AuthorizationPolicy 설계
-- `docs/security/namespace-seperation.md` — 네임스페이스 격리
+- `docs/04-security/mtls-guide.md` — mTLS 설정
+- `docs/04-security/authorization-policy-guide.md` — AuthorizationPolicy 설계
+- `docs/04-security/namespace-seperation.md` — 네임스페이스 격리

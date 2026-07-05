@@ -10,8 +10,8 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 ## 어디서 시작할까
 
 - 문서 지도: `docs/README.md`
-- Nginx 관점 비교: `docs/concepts/nginx-vs-istio.md`
-- 첫 문서: `docs/install/install.md`
+- Nginx 관점 비교: `docs/01-foundations/nginx-vs-istio.md`
+- 첫 문서: `docs/02-installation/install.md`
 - 운영 보조 자료: `ops/README.md`
 - AI 작업 지침: `CLAUDE.md`
 
@@ -19,7 +19,7 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 
 | 경로 | 내용 |
 |------|------|
-| `docs/` | 설치, 트래픽 관리, 보안, 관측, Envoy 문서 |
+| `docs/` | 개념, 설치, 트래픽 관리, 보안, 관측, Envoy, 표준, 템플릿, AI 지침 |
 | `ops/` | 샘플 앱과 Istio 리소스 YAML |
 | `CLAUDE.md` | 이 레포에서 Claude가 참고할 작업 지침 |
 
@@ -44,26 +44,26 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 ## Learning Path
 
 ```
-1. Installation      → docs/install/
+1. Installation      → docs/02-installation/
    ├── Install & upgrade Istio on EKS
    └── Understand sidecar injection internals
 
-2. Core Concepts     → docs/concepts/ + docs/traffic-management/
+2. Core Concepts     → docs/01-foundations/ + docs/03-traffic-management/
    ├── Nginx perspective: how Istio takes over proxy, routing, security, observability
    ├── VirtualService + DestinationRule (routing basics)
    └── Canary deployment hands-on
 
 3. Advanced Topics
-   ├── Security      → docs/security/      (mTLS, AuthorizationPolicy)
-   ├── Resiliency    → docs/traffic-management/ (Circuit Breaker, Retry, Rate Limit)
-   ├── Egress        → docs/traffic-management/ (Egress Gateway, ServiceEntry)
-   └── Observability → docs/observability/ (Prometheus, Tracing, Grafana)
+   ├── Security      → docs/04-security/      (mTLS, AuthorizationPolicy)
+   ├── Resiliency    → docs/03-traffic-management/ (Circuit Breaker, Retry, Rate Limit)
+   ├── Egress        → docs/03-traffic-management/ (Egress Gateway, ServiceEntry)
+   └── Observability → docs/05-observability/ (Prometheus, Tracing, Grafana)
 
-4. Envoy Deep Dive   → docs/envoy/
+4. Envoy Deep Dive   → docs/06-envoy-deep-dive/
    ├── Architecture, xDS, Filter Chain
    └── Latency diagnosis, Admin API, Debug
 
-5. Hands-on Lab      → docs/traffic-management/canary-test.md
+5. Hands-on Lab      → docs/03-traffic-management/canary-test.md
 ```
 
 ---
@@ -76,7 +76,7 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 
 | File | Description |
 |------|-------------|
-| [nginx-vs-istio.md](./docs/concepts/nginx-vs-istio.md) | Nginx upstream/location/proxy_pass 관점에서 Istio Gateway, VirtualService, DestinationRule, mTLS, observability를 매핑 |
+| [nginx-vs-istio.md](./docs/01-foundations/nginx-vs-istio.md) | Nginx upstream/location/proxy_pass 관점에서 Istio Gateway, VirtualService, DestinationRule, mTLS, observability를 매핑 |
 
 ---
 
@@ -86,10 +86,10 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 
 | File | Description |
 |------|-------------|
-| [install.md](./docs/install/install.md) | Install Istio (Base, Istiod, Ingress Gateway) via Helm |
-| [mutatingadmissionwebhook-example.md](./docs/install/mutatingadmissionwebhook-example.md) | How sidecar auto-injection works (MutatingAdmissionWebhook) and troubleshooting |
-| [istio-upgrade.md](./docs/install/istio-upgrade.md) | Canary and In-place upgrade strategies with rollback procedures |
-| [istio-performance-tuning.md](./docs/install/istio-performance-tuning.md) | Sidecar resource tuning, concurrency, Sidecar resource scope, stats filtering |
+| [install.md](./docs/02-installation/install.md) | Install Istio (Base, Istiod, Ingress Gateway) via Helm |
+| [mutatingadmissionwebhook-example.md](./docs/02-installation/mutatingadmissionwebhook-example.md) | How sidecar auto-injection works (MutatingAdmissionWebhook) and troubleshooting |
+| [istio-upgrade.md](./docs/02-installation/istio-upgrade.md) | Canary and In-place upgrade strategies with rollback procedures |
+| [istio-performance-tuning.md](./docs/02-installation/istio-performance-tuning.md) | Sidecar resource tuning, concurrency, Sidecar resource scope, stats filtering |
 
 ---
 
@@ -101,22 +101,22 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 
 | File | Description |
 |------|-------------|
-| [virtualservice-guide.md](./docs/traffic-management/virtualservice-guide.md) | VirtualService — weight, path matching, header-based routing |
-| [destinationrule-guide.md](./docs/traffic-management/destinationrule-guide.md) | DestinationRule — subset definition, load balancing, circuit breaker |
-| [canary-test.md](./docs/traffic-management/canary-test.md) | Step-by-step canary deployment (90/10 → 50/50 → 0/100 traffic shift) |
-| [egress-gateway-guide.md](./docs/traffic-management/egress-gateway-guide.md) | Egress Gateway — control and audit outbound traffic |
-| [service-entry-guide.md](./docs/traffic-management/service-entry-guide.md) | ServiceEntry — register external services (APIs, DBs) into the mesh |
+| [virtualservice-guide.md](./docs/03-traffic-management/virtualservice-guide.md) | VirtualService — weight, path matching, header-based routing |
+| [destinationrule-guide.md](./docs/03-traffic-management/destinationrule-guide.md) | DestinationRule — subset definition, load balancing, circuit breaker |
+| [canary-test.md](./docs/03-traffic-management/canary-test.md) | Step-by-step canary deployment (90/10 → 50/50 → 0/100 traffic shift) |
+| [egress-gateway-guide.md](./docs/03-traffic-management/egress-gateway-guide.md) | Egress Gateway — control and audit outbound traffic |
+| [service-entry-guide.md](./docs/03-traffic-management/service-entry-guide.md) | ServiceEntry — register external services (APIs, DBs) into the mesh |
 
 #### Deep Dive
 
 | File | Description |
 |------|-------------|
-| [circuit-breaker-guide.md](./docs/traffic-management/circuit-breaker-guide.md) | Circuit Breaker — Outlier Detection, connection pool limits |
-| [fault-injection-guide.md](./docs/traffic-management/fault-injection-guide.md) | Fault Injection — simulate delays and aborts for resilience testing |
-| [retry-timeout-guide.md](./docs/traffic-management/retry-timeout-guide.md) | Retry & Timeout — retryOn conditions, perTryTimeout, Retry Storm prevention |
-| [traffic-mirroring.md](./docs/traffic-management/traffic-mirroring.md) | Traffic Mirroring (Shadowing) — safe pre-validation before Canary rollout |
-| [load-balancing-deep-dive.md](./docs/traffic-management/load-balancing-deep-dive.md) | Load Balancing — LEAST_CONN, CONSISTENT_HASH session affinity, Locality LB |
-| [rate-limiting-guide.md](./docs/traffic-management/rate-limiting-guide.md) | Rate Limiting — local token bucket, global rate limit service integration |
+| [circuit-breaker-guide.md](./docs/03-traffic-management/circuit-breaker-guide.md) | Circuit Breaker — Outlier Detection, connection pool limits |
+| [fault-injection-guide.md](./docs/03-traffic-management/fault-injection-guide.md) | Fault Injection — simulate delays and aborts for resilience testing |
+| [retry-timeout-guide.md](./docs/03-traffic-management/retry-timeout-guide.md) | Retry & Timeout — retryOn conditions, perTryTimeout, Retry Storm prevention |
+| [traffic-mirroring.md](./docs/03-traffic-management/traffic-mirroring.md) | Traffic Mirroring (Shadowing) — safe pre-validation before Canary rollout |
+| [load-balancing-deep-dive.md](./docs/03-traffic-management/load-balancing-deep-dive.md) | Load Balancing — LEAST_CONN, CONSISTENT_HASH session affinity, Locality LB |
+| [rate-limiting-guide.md](./docs/03-traffic-management/rate-limiting-guide.md) | Rate Limiting — local token bucket, global rate limit service integration |
 
 ---
 
@@ -128,19 +128,19 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 
 | File | Description |
 |------|-------------|
-| [mtls-guide.md](./docs/security/mtls-guide.md) | mTLS — PeerAuthentication, STRICT/PERMISSIVE modes |
-| [tls-mtls-handshake-flow.md](./docs/security/tls-mtls-handshake-flow.md) | TLS/mTLS handshake — TCP 3-way handshake, Gateway termination, 내부 mTLS 재암호화 흐름 |
-| [authorization-policy-guide.md](./docs/security/authorization-policy-guide.md) | AuthorizationPolicy — service-to-service RBAC (ALLOW/DENY, Zero Trust) |
-| [namespace-seperation.md](./docs/security/namespace-seperation.md) | Namespace isolation — why istio-system and istio-ingress are separated |
+| [mtls-guide.md](./docs/04-security/mtls-guide.md) | mTLS — PeerAuthentication, STRICT/PERMISSIVE modes |
+| [tls-mtls-handshake-flow.md](./docs/04-security/tls-mtls-handshake-flow.md) | TLS/mTLS handshake — TCP 3-way handshake, Gateway termination, 내부 mTLS 재암호화 흐름 |
+| [authorization-policy-guide.md](./docs/04-security/authorization-policy-guide.md) | AuthorizationPolicy — service-to-service RBAC (ALLOW/DENY, Zero Trust) |
+| [namespace-seperation.md](./docs/04-security/namespace-seperation.md) | Namespace isolation — why istio-system and istio-ingress are separated |
 
 #### Deep Dive
 
 | File | Description |
 |------|-------------|
-| [mtls-certificate-lifecycle.md](./docs/security/mtls-certificate-lifecycle.md) | SPIFFE/SVID certificate issuance and renewal — istiod CA and SDS internals |
-| [mtls-migration-guide.md](./docs/security/mtls-migration-guide.md) | PERMISSIVE → STRICT migration — step-by-step with rollback procedures |
-| [mtls-debug-guide.md](./docs/security/mtls-debug-guide.md) | mTLS handshake failure diagnosis — CONFLICT, cert expiry, missing sidecar |
-| [mtls-external-ca.md](./docs/security/mtls-external-ca.md) | External CA integration — plugin CA, AWS ACM PCA, HashiCorp Vault |
+| [mtls-certificate-lifecycle.md](./docs/04-security/mtls-certificate-lifecycle.md) | SPIFFE/SVID certificate issuance and renewal — istiod CA and SDS internals |
+| [mtls-migration-guide.md](./docs/04-security/mtls-migration-guide.md) | PERMISSIVE → STRICT migration — step-by-step with rollback procedures |
+| [mtls-debug-guide.md](./docs/04-security/mtls-debug-guide.md) | mTLS handshake failure diagnosis — CONFLICT, cert expiry, missing sidecar |
+| [mtls-external-ca.md](./docs/04-security/mtls-external-ca.md) | External CA integration — plugin CA, AWS ACM PCA, HashiCorp Vault |
 
 ---
 
@@ -152,17 +152,17 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 
 | File | Description |
 |------|-------------|
-| [observability-guide.md](./docs/observability/observability-guide.md) | Observability stack overview — Prometheus, Grafana, Jaeger setup |
-| [install-kiali.md](./docs/observability/install-kiali.md) | Kiali — install and use service graph visualization |
-| [install-jaeger.md](./docs/observability/install-jaeger.md) | Jaeger — install and configure distributed tracing |
+| [observability-guide.md](./docs/05-observability/observability-guide.md) | Observability stack overview — Prometheus, Grafana, Jaeger setup |
+| [install-kiali.md](./docs/05-observability/install-kiali.md) | Kiali — install and use service graph visualization |
+| [install-jaeger.md](./docs/05-observability/install-jaeger.md) | Jaeger — install and configure distributed tracing |
 
 #### Deep Dive
 
 | File | Description |
 |------|-------------|
-| [prometheus-metrics.md](./docs/observability/prometheus-metrics.md) | Istio standard metrics, Envoy raw stats, custom labels, alerting queries |
-| [distributed-tracing-guide.md](./docs/observability/distributed-tracing-guide.md) | B3/W3C header propagation, sampling config, app-level context forwarding |
-| [grafana-dashboard-guide.md](./docs/observability/grafana-dashboard-guide.md) | Official dashboards, custom panels, Canary comparison, alert rules |
+| [prometheus-metrics.md](./docs/05-observability/prometheus-metrics.md) | Istio standard metrics, Envoy raw stats, custom labels, alerting queries |
+| [distributed-tracing-guide.md](./docs/05-observability/distributed-tracing-guide.md) | B3/W3C header propagation, sampling config, app-level context forwarding |
+| [grafana-dashboard-guide.md](./docs/05-observability/grafana-dashboard-guide.md) | Official dashboards, custom panels, Canary comparison, alert rules |
 
 ---
 
@@ -174,18 +174,18 @@ A hands-on knowledge base for running Istio on EKS — built from real operation
 
 | File | Description |
 |------|-------------|
-| [envoy-architecture.md](./docs/envoy/envoy-architecture.md) | Listener → Filter Chain → Cluster → Endpoint flow, `istioctl proxy-config` |
-| [xds-protocol.md](./docs/envoy/xds-protocol.md) | LDS/RDS/CDS/EDS — how istiod pushes config to Envoy sidecars |
-| [filter-chain-guide.md](./docs/envoy/filter-chain-guide.md) | Network/HTTP filter chains, EnvoyFilter customization (Lua, RBAC, timeout) |
+| [envoy-architecture.md](./docs/06-envoy-deep-dive/envoy-architecture.md) | Listener → Filter Chain → Cluster → Endpoint flow, `istioctl proxy-config` |
+| [xds-protocol.md](./docs/06-envoy-deep-dive/xds-protocol.md) | LDS/RDS/CDS/EDS — how istiod pushes config to Envoy sidecars |
+| [filter-chain-guide.md](./docs/06-envoy-deep-dive/filter-chain-guide.md) | Network/HTTP filter chains, EnvoyFilter customization (Lua, RBAC, timeout) |
 
 #### Operations & Debugging
 
 | File | Description |
 |------|-------------|
-| [envoy-access-log.md](./docs/envoy/envoy-access-log.md) | Access log format, response flag reference (UH/UF/UO/NR), JSON customization |
-| [envoy-admin-api.md](./docs/envoy/envoy-admin-api.md) | Admin API (port 15000) — config_dump, clusters, stats, log level tuning |
-| [envoy-debug-guide.md](./docs/envoy/envoy-debug-guide.md) | Scenario-based sidecar troubleshooting with diagnostic command cheat sheet |
-| [network-latency-diagnosis.md](./docs/envoy/network-latency-diagnosis.md) | Per-segment latency — TCP handshake, RST, timeout diagnosis via Envoy stats |
+| [envoy-access-log.md](./docs/06-envoy-deep-dive/envoy-access-log.md) | Access log format, response flag reference (UH/UF/UO/NR), JSON customization |
+| [envoy-admin-api.md](./docs/06-envoy-deep-dive/envoy-admin-api.md) | Admin API (port 15000) — config_dump, clusters, stats, log level tuning |
+| [envoy-debug-guide.md](./docs/06-envoy-deep-dive/envoy-debug-guide.md) | Scenario-based sidecar troubleshooting with diagnostic command cheat sheet |
+| [network-latency-diagnosis.md](./docs/06-envoy-deep-dive/network-latency-diagnosis.md) | Per-segment latency — TCP handshake, RST, timeout diagnosis via Envoy stats |
 
 ---
 

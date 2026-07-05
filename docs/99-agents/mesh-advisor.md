@@ -77,7 +77,7 @@
 
 ## 참조 문서
 
-- `docs/traffic-management/destinationrule-guide.md` — Circuit Breaker 설계
-- `docs/security/mtls-guide.md` — mTLS 전체 적용
-- `docs/security/authorization-policy-guide.md` — 인가 정책 설계
-- `docs/observability/observability-guide.md` — 관측성 스택 구성
+- `docs/03-traffic-management/destinationrule-guide.md` — Circuit Breaker 설계
+- `docs/04-security/mtls-guide.md` — mTLS 전체 적용
+- `docs/04-security/authorization-policy-guide.md` — 인가 정책 설계
+- `docs/05-observability/observability-guide.md` — 관측성 스택 구성

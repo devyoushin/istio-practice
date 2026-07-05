@@ -17,11 +17,12 @@ EKS + Istio 운영 경험 기반의 개인 지식 베이스입니다. 문서 추
 ```
 istio-practice/
 ├── docs/                              # 지식 문서 (카테고리별 분류)
-│   ├── traffic-management/  (7개)    # VirtualService, DestinationRule, Canary, Circuit Breaker
-│   ├── security/            (3개)    # mTLS, AuthorizationPolicy, Namespace 격리
-│   ├── observability/       (3개)    # Kiali, Jaeger, Prometheus
-│   ├── install/             (2개)    # 설치, MutatingAdmissionWebhook
-│   └── envoy/               (5개)    # Envoy 아키텍처, xDS, Filter Chain, Access Log, Admin API, 디버깅
+│   ├── 01-foundations/         # Nginx 관점 비교, 핵심 개념 연결
+│   ├── 02-installation/        # 설치, 업그레이드, 사이드카 주입, 성능 튜닝
+│   ├── 03-traffic-management/  # VirtualService, DestinationRule, Canary, Circuit Breaker
+│   ├── 04-security/            # mTLS, AuthorizationPolicy, Namespace 격리
+│   ├── 05-observability/       # Kiali, Jaeger, Prometheus
+│   └── 06-envoy-deep-dive/     # Envoy 아키텍처, xDS, Filter Chain, Access Log, Admin API, 디버깅
 │
 ├── ops/app/                               # 샘플 앱 Kubernetes 매니페스트
 │   ├── deployment-v1.yaml
@@ -35,18 +36,18 @@ istio-practice/
 │   ├── virtual-service-50-50.yaml
 │   └── virtual-service-90-10.yaml
 │
-├── docs/templates/                         # 재사용 문서 템플릿
+├── docs/91-templates/                         # 재사용 문서 템플릿
 │   ├── service-doc.md                 # 서비스 Istio 구성 문서
 │   ├── runbook.md                     # 운영 Runbook
 │   └── incident-report.md            # 장애 보고서
 │
-├── docs/rules/                             # Claude 작성 규칙
+├── docs/90-standards/                             # Claude 작성 규칙
 │   ├── doc-writing.md                 # 문서 스타일 가이드
 │   ├── istio-conventions.md           # YAML/명령어 코드 규칙
 │   ├── security-checklist.md          # 보안 검토 체크리스트
 │   └── monitoring.md                  # 모니터링/확인 작성 기준
 │
-├── docs/agents/                            # Claude 전문 에이전트
+├── docs/99-agents/                            # Claude 전문 에이전트
 │   ├── doc-writer.md                  # 문서 작성 에이전트
 │   ├── mesh-advisor.md                # 메시 아키텍처 설계/검토 에이전트
 │   ├── traffic-analyzer.md            # 트래픽 분석/배포 전략 에이전트
@@ -70,8 +71,8 @@ istio-practice/
 |--------|--------|------|
 | `/new-doc` | `/new-doc traffic-management retry-timeout` | 신규 문서 스캐폴딩 |
 | `/new-runbook` | `/new-runbook traffic-management canary-rollout` | 운영 Runbook 생성 |
-| `/review-doc` | `/review-doc docs/security/mtls-guide.md` | 문서 품질 검토 |
-| `/add-troubleshooting` | `/add-troubleshooting docs/traffic-management/circuit-breaker-guide.md <증상>` | 트러블슈팅 추가 |
+| `/review-doc` | `/review-doc docs/04-security/mtls-guide.md` | 문서 품질 검토 |
+| `/add-troubleshooting` | `/add-troubleshooting docs/03-traffic-management/circuit-breaker-guide.md <증상>` | 트러블슈팅 추가 |
 | `/search-kb` | `/search-kb mTLS STRICT` | 지식 베이스 키워드 검색 |
 
 ---
@@ -82,9 +83,9 @@ istio-practice/
 docs/{카테고리}/{주제}.md
 ```
 
-- 카테고리: `traffic-management`, `security`, `observability`, `install`
+- 카테고리: `01-foundations`, `02-installation`, `03-traffic-management`, `04-security`, `05-observability`, `06-envoy-deep-dive`
 - 주제: 소문자 영어, 하이픈 구분
-- 예시: `docs/traffic-management/retry-timeout-guide.md`, `docs/security/jwt-auth-guide.md`
+- 예시: `docs/03-traffic-management/retry-timeout-guide.md`, `docs/04-security/jwt-auth-guide.md`
 
 ---
 
@@ -96,13 +97,13 @@ docs/{카테고리}/{주제}.md
 4. **한국어 기술 문서** — 주요 개념은 영어 원문 병기
 5. **모니터링 필수** — 모든 문서에 `istioctl` 진단 명령어 포함
 
-세부 규칙은 `docs/rules/` 디렉토리를 참조합니다.
+세부 규칙은 `docs/90-standards/` 디렉토리를 참조합니다.
 
 ---
 
 ## 카테고리별 문서 목록
 
-### docs/traffic-management/
+### docs/03-traffic-management/
 | 파일 | 주제 |
 |------|------|
 | `virtualservice-guide.md` | VirtualService 라우팅, 가중치 분할, 헤더 기반 라우팅 |
@@ -117,7 +118,7 @@ docs/{카테고리}/{주제}.md
 | `load-balancing-deep-dive.md` | LEAST_CONN, CONSISTENT_HASH(세션 어피니티), Locality LB |
 | `rate-limiting-guide.md` | 로컬/글로벌 Rate Limit, 토큰 버킷, 외부 Rate Limit 서비스 |
 
-### docs/security/
+### docs/04-security/
 | 파일 | 주제 |
 |------|------|
 | `mtls-guide.md` | mTLS STRICT/PERMISSIVE, PeerAuthentication 설정 |
@@ -129,7 +130,7 @@ docs/{카테고리}/{주제}.md
 | `authorization-policy-guide.md` | AuthorizationPolicy, Default-deny, 최소 권한 |
 | `namespace-seperation.md` | 네임스페이스 격리, 멀티 테넌트 메시 구성 |
 
-### docs/observability/
+### docs/05-observability/
 | 파일 | 주제 |
 |------|------|
 | `observability-guide.md` | Istio 관측성 스택 개요, Prometheus 지표, 트레이싱 |
@@ -139,7 +140,7 @@ docs/{카테고리}/{주제}.md
 | `distributed-tracing-guide.md` | B3/W3C 헤더 전파, 샘플링 설정, 헤더 전달 코드 예시 |
 | `grafana-dashboard-guide.md` | 공식 대시보드 활용, 커스텀 패널, Canary 비교 대시보드 |
 
-### docs/install/
+### docs/02-installation/
 | 파일 | 주제 |
 |------|------|
 | `install.md` | Istio EKS 설치, istioctl, Helm 방식 |
@@ -147,7 +148,7 @@ docs/{카테고리}/{주제}.md
 | `istio-upgrade.md` | Canary/In-place 업그레이드 전략, 롤백 절차 |
 | `istio-performance-tuning.md` | 사이드카 리소스 튜닝, concurrency, Sidecar 리소스, 통계 필터링 |
 
-### docs/envoy/
+### docs/06-envoy-deep-dive/
 | 파일 | 주제 |
 |------|------|
 | `envoy-architecture.md` | Envoy 전체 구조 (Listener → Filter Chain → Cluster → Endpoint), istioctl proxy-config |
@@ -162,8 +163,8 @@ docs/{카테고리}/{주제}.md
 
 ## 추가 예정 주제 (백로그)
 
-- `docs/traffic-management/retry-timeout-guide.md` — Retry/Timeout 실무 권장값
-- `docs/security/jwt-auth-guide.md` — RequestAuthentication + JWT 연동
-- `docs/observability/prometheus-metrics.md` — Istio Prometheus 지표 상세
-- `docs/install/istio-upgrade.md` — Istio 버전 업그레이드 전략
-- `docs/traffic-management/traffic-mirroring.md` — Traffic Mirroring(Shadowing) 활용
+- `docs/03-traffic-management/retry-timeout-guide.md` — Retry/Timeout 실무 권장값
+- `docs/04-security/jwt-auth-guide.md` — RequestAuthentication + JWT 연동
+- `docs/05-observability/prometheus-metrics.md` — Istio Prometheus 지표 상세
+- `docs/02-installation/istio-upgrade.md` — Istio 버전 업그레이드 전략
+- `docs/03-traffic-management/traffic-mirroring.md` — Traffic Mirroring(Shadowing) 활용

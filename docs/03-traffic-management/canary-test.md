@@ -23,7 +23,7 @@ istio-practice/
 │       ├── virtual-service-90-10.yaml  # v1:90% / v2:10%
 │       ├── virtual-service-50-50.yaml  # v1:50% / v2:50%
 │       └── virtual-service-0-100.yaml  # v1:0% / v2:100%
-└── docs/traffic-management/canary-test.md
+└── docs/03-traffic-management/canary-test.md
 ```
 
 ---

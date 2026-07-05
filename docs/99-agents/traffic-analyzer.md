@@ -69,7 +69,7 @@ Canary 배포, A/B 테스트, 블루/그린 배포 등 다양한 릴리즈 전�
 
 ## 참조 문서
 
-- `docs/traffic-management/canary-test.md` — 카나리 배포 실습
-- `docs/traffic-management/virtualservice-guide.md` — VirtualService 상세
-- `docs/traffic-management/circuit-breaker-guide.md` — Circuit Breaker 설정
-- `docs/traffic-management/fault-injection-guide.md` — 장애 내성 테스트
+- `docs/03-traffic-management/canary-test.md` — 카나리 배포 실습
+- `docs/03-traffic-management/virtualservice-guide.md` — VirtualService 상세
+- `docs/03-traffic-management/circuit-breaker-guide.md` — Circuit Breaker 설정
+- `docs/03-traffic-management/fault-injection-guide.md` — 장애 내성 테스트

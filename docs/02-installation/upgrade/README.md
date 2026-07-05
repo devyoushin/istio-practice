@@ -47,13 +47,13 @@ helm upgrade istio-base istio/base \
 helm upgrade istiod istio/istiod \
   --namespace ${ISTIO_NAMESPACE} \
   --version ${TARGET_VERSION} \
-  --values ops/install/istiod-values.yaml \
+  --values ops/02-installation/istiod-values.yaml \
   --wait
 
 helm upgrade istio-ingress istio/gateway \
   --namespace ${INGRESS_NAMESPACE} \
   --version ${TARGET_VERSION} \
-  --values ops/install/ingress-gateway-values.yaml \
+  --values ops/02-installation/ingress-gateway-values.yaml \
   --wait
 ```
 

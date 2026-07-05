@@ -142,7 +142,7 @@ Istio 성능 튜닝의 핵심은 기능을 무조건 켜는 것이 아니라 필
 - tracing sampling 비율 조정
 - mTLS, AuthorizationPolicy 적용 범위 단계적 확대
 
-관련 문서: [Istio 성능 튜닝 가이드](../install/istio-performance-tuning.md)
+관련 문서: [Istio 성능 튜닝 가이드](../02-installation/istio-performance-tuning.md)
 
 ## 5. 보안 관점
 
@@ -170,9 +170,9 @@ Istio에서 가져가는 보안 이점은 다음과 같습니다.
 
 관련 문서:
 
-- [mTLS 가이드](../security/mtls-guide.md)
-- [TLS/mTLS 핸드셰이크 동작 원리](../security/tls-mtls-handshake-flow.md)
-- [AuthorizationPolicy 가이드](../security/authorization-policy-guide.md)
+- [mTLS 가이드](../04-security/mtls-guide.md)
+- [TLS/mTLS 핸드셰이크 동작 원리](../04-security/tls-mtls-handshake-flow.md)
+- [AuthorizationPolicy 가이드](../04-security/authorization-policy-guide.md)
 
 ## 6. 관측 관점
 
@@ -188,7 +188,7 @@ Nginx의 운영 가시성은 access log, error log, stub status, exporter 중심
 
 Nginx가 “프록시를 지나간 요청”을 보는 데 강하다면, Istio는 “서비스 간 호출 관계와 정책 적용 결과”를 보는 데 강합니다.
 
-관련 문서: [Observability 가이드](../observability/observability-guide.md)
+관련 문서: [Observability 가이드](../05-observability/observability-guide.md)
 
 ## 7. 언제 Nginx를 쓰고 언제 Istio를 쓰는가?
 
@@ -247,7 +247,7 @@ Istio 문제는 보통 다음 중 하나입니다.
 
 ## 9. 참고
 
-- [VirtualService 가이드](../traffic-management/virtualservice-guide.md)
-- [DestinationRule 가이드](../traffic-management/destinationrule-guide.md)
-- [Gateway/Egress Gateway 가이드](../traffic-management/egress-gateway-guide.md)
-- [Envoy 아키텍처](../envoy/envoy-architecture.md)
+- [VirtualService 가이드](../03-traffic-management/virtualservice-guide.md)
+- [DestinationRule 가이드](../03-traffic-management/destinationrule-guide.md)
+- [Gateway/Egress Gateway 가이드](../03-traffic-management/egress-gateway-guide.md)
+- [Envoy 아키텍처](../06-envoy-deep-dive/envoy-architecture.md)

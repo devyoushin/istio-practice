@@ -129,7 +129,7 @@ status: 429                           # 기본값: 429
 
 ## 3. 글로벌 Rate Limit (Global Rate Limit)
 
-여러 Pod에 걸쳐 클러스터 전체 요청 수를 제한할 때 사용. 외부 Rate Limit 서비스 (envoy/ratelimit) 배포 필요.
+여러 Pod에 걸쳐 클러스터 전체 요청 수를 제한할 때 사용. 외부 Rate Limit 서비스 (06-envoy-deep-dive/ratelimit) 배포 필요.
 
 ### Rate Limit 서비스 배포
 
